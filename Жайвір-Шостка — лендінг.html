@@ -1,5 +1,432 @@
 <!DOCTYPE html>
+<html lang="uk"><!DOCTYPE html>
 <html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Жайвір-Шостка — туристична агенція</title>
+<meta name="description" content="Туристична агенція «Жайвір-Шостка»: тури за кордон і по Україні, авіаквитки, страхування, візова підтримка. Шостка, вул. Миру, 4.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4FAFD;
+  --surface: #FFFFFF;
+  --ink: #0F2C4A;
+  --muted: #4A6178;
+  --sky: #BFE3F2;
+  --deep: #12406B;
+  --wheat: #F0B93A;
+  --wheat-ink: #3B2A00;
+  --line: #CFE2EC;
+  --field: #E7B441;
+  --display: "Lora", Georgia, "Times New Roman", serif;
+  --text: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C2238; --surface: #11304D; --ink: #EAF4FA; --muted: #9DB7CA;
+    --sky: #1B4568; --deep: #8FCDEF; --line: #234A6B; --field: #C99A2E;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C2238; --surface: #11304D; --ink: #EAF4FA; --muted: #9DB7CA;
+  --sky: #1B4568; --deep: #8FCDEF; --line: #234A6B; --field: #C99A2E;
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--text); -webkit-text-size-adjust: 100%; }
+a { color: inherit; }
+img, svg { max-width: 100%; }
+:focus-visible { outline: 3px solid var(--wheat); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 22px/1 var(--display); color: var(--deep); }
+.brand small { display: block; font: 500 12px/1.2 var(--text); color: var(--muted); margin-top: 4px; }
+.nav { display: none; gap: 26px; }
+.nav a { text-decoration: none; font-weight: 500; color: var(--muted); }
+.nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 5px; }
+.call { text-decoration: none; font-weight: 600; white-space: nowrap; color: var(--deep); }
+@media (min-width: 860px) { .nav { display: flex; } }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px; font: 600 16px/1 var(--text); text-decoration: none; border: 2px solid transparent; cursor: pointer; }
+.btn-main { background: var(--wheat); color: var(--wheat-ink); }
+.btn-main:hover { background: #F6C95A; }
+.btn-line { border-color: var(--deep); color: var(--deep); background: transparent; }
+.btn-line:hover { background: var(--deep); color: var(--bg); }
+
+/* hero */
+.hero { background: linear-gradient(180deg, var(--sky) 0%, var(--bg) 100%); overflow: hidden; }
+.hero .wrap { display: grid; gap: 8px; padding-top: 44px; }
+.hero h1 { font: 700 clamp(34px, 6.6vw, 60px)/1.1 var(--display); letter-spacing: -0.01em; margin: 0 0 20px; color: var(--deep); }
+.hero p.lead { font-size: 19px; color: var(--ink); max-width: 46ch; margin: 0 0 28px; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-art { margin-top: 12px; }
+.hero-art svg { display: block; width: 100%; height: auto; }
+@media (min-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr 1.15fr; align-items: center; gap: 24px; padding-top: 32px; }
+  .hero-art { margin-top: 0; }
+}
+.sun { fill: var(--wheat); }
+.route-faint { fill: none; stroke: var(--deep); stroke-opacity: .35; stroke-width: 2; stroke-dasharray: 3 9; stroke-linecap: round; }
+.route-trail { fill: none; stroke: var(--deep); stroke-width: 3; stroke-linecap: round; }
+.bird { fill: var(--deep); }
+.pin { opacity: 0; transition: opacity .5s; }
+.pin.on { opacity: 1; }
+.pin circle { fill: var(--surface); stroke: var(--deep); stroke-width: 3; }
+.pin text { font: 600 15px var(--text); fill: var(--ink); }
+.field-back { fill: var(--field); opacity: .55; }
+.field-front { fill: var(--field); }
+.stalk { stroke: var(--field); stroke-width: 3; stroke-linecap: round; }
+
+/* sections */
+section { padding: 72px 0; }
+h2 { font: 700 clamp(28px, 4.6vw, 42px)/1.15 var(--display); letter-spacing: -0.005em; margin: 0 0 14px; color: var(--deep); }
+.sec-lead { color: var(--muted); max-width: 56ch; margin: 0 0 40px; font-size: 18px; }
+
+/* destinations */
+.dest { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+.dest li { border-bottom: 1px solid var(--line); }
+.dest a { display: grid; gap: 4px; padding: 20px 4px; text-decoration: none; }
+.dest .name { font: 600 clamp(24px, 3.4vw, 30px)/1.2 var(--display); }
+.dest .desc { color: var(--muted); }
+.dest a:hover .name { color: var(--deep); text-decoration: underline; text-decoration-thickness: 3px; text-decoration-color: var(--wheat); text-underline-offset: 6px; }
+@media (min-width: 860px) {
+  .dest { grid-template-columns: 1fr 1fr; column-gap: 56px; }
+  .dest li:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--line); }
+}
+.formats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+.formats a { text-decoration: none; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-weight: 500; }
+.formats a:hover { border-color: var(--deep); }
+.formats-title { margin: 44px 0 0; font: 600 22px/1.3 var(--display); }
+
+/* services */
+.services { background: var(--surface); border-block: 1px solid var(--line); }
+.svc { display: grid; gap: 0; margin: 0; }
+.svc div { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.svc div:last-child { border-bottom: 0; }
+.svc dt { font: 600 19px/1.3 var(--text); margin-bottom: 4px; }
+.svc dd { margin: 0; color: var(--muted); }
+@media (min-width: 860px) {
+  .svc { grid-template-columns: 1fr 1fr; column-gap: 64px; }
+  .svc div:nth-last-child(2) { border-bottom: 0; }
+}
+
+/* steps */
+.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 0; }
+.steps li { counter-increment: s; position: relative; padding: 0 0 34px 64px; }
+.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--wheat); color: var(--wheat-ink); font: 700 18px/44px var(--display); text-align: center; }
+.steps li::after { content: ""; position: absolute; left: 21px; top: 50px; bottom: 6px; width: 2px; background: var(--line); }
+.steps li:last-child::after { display: none; }
+.steps h3 { margin: 6px 0 4px; font: 600 20px/1.3 var(--text); }
+.steps p { margin: 0; color: var(--muted); max-width: 52ch; }
+@media (min-width: 860px) {
+  .steps { grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .steps li { padding: 64px 0 0; }
+  .steps li::after { left: 54px; right: -28px; top: 21px; bottom: auto; width: auto; height: 2px; }
+}
+
+/* faq */
+.faq { max-width: 760px; }
+.faq details { border-bottom: 1px solid var(--line); padding: 4px 0; }
+.faq details:first-of-type { border-top: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 0; font: 600 19px/1.4 var(--text); position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font: 500 28px/1 var(--text); color: var(--deep); }
+.faq details[open] summary::after { content: "\2212"; }
+.faq p { margin: 0 0 20px; color: var(--muted); max-width: 60ch; }
+.faq p a { color: var(--deep); text-underline-offset: 3px; }
+.hero-note { margin: 22px 0 0; color: var(--muted); font-size: 16px; max-width: 46ch; }
+
+/* contacts */
+.contact { background: var(--deep); color: #F4FAFD; }
+:root[data-theme="dark"] .contact { background: #0A1B2D; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .contact { background: #0A1B2D; } }
+.contact h2 { color: #FFFFFF; }
+.contact .wrap { display: grid; gap: 40px; }
+@media (min-width: 900px) { .contact .wrap { grid-template-columns: 1fr 1.1fr; gap: 64px; } }
+.contact a { color: #FFFFFF; }
+.contact address { font-style: normal; display: grid; gap: 14px; margin: 24px 0 28px; }
+.contact address span { display: block; color: #B9D3E4; font-size: 15px; }
+.contact address a { font-weight: 600; font-size: 20px; text-decoration: none; }
+.contact address a:hover { text-decoration: underline; }
+.viber { background: #FFFFFF; color: var(--deep) !important; }
+form { background: var(--surface); color: var(--ink); border-radius: 20px; padding: 28px; display: grid; gap: 18px; }
+form h3 { margin: 0; font: 600 24px/1.25 var(--display); color: var(--deep); }
+label { display: grid; gap: 6px; font-weight: 500; font-size: 15px; }
+input, select, textarea { font: 400 17px/1.4 var(--text); padding: 13px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); width: 100%; }
+input:focus, select:focus, textarea:focus { outline: 3px solid var(--wheat); outline-offset: 1px; border-color: var(--deep); }
+textarea { min-height: 96px; resize: vertical; }
+.row { display: grid; gap: 18px; }
+@media (min-width: 560px) { .row { grid-template-columns: 1fr 1fr; } }
+.hint { margin: 0; font-size: 14px; color: var(--muted); }
+
+footer { padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .pin { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Жайвір-Шостка, на початок">
+      <svg width="34" height="34" viewBox="-32 -26 64 52" aria-hidden="true"><g class="bird"><path d="M-16 4 C-8 -6 8 -8 18 -2 L26 -4 L19 3 C10 11 -6 13 -16 4Z"/><path d="M-2 -2 C-6 -17 6 -24 15 -19 C9 -13 7 -6 5 0Z"/><path d="M-16 4 L-30 9 L-27 1Z"/></g></svg>
+      <span>Жайвір<small>туристична агенція, Шостка</small></span>
+    </a>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#napryamky">Напрямки</a>
+      <a href="#posluhy">Послуги</a>
+      <a href="#yak">Як це буде</a>
+      <a href="#pytannya">Питання</a>
+      <a href="#kontakty">Контакти</a>
+    </nav>
+    <a class="call" href="tel:+380502251863">+38 (050) 225 18 63</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Ми працюємо, щоб ви відпочивали</h1>
+        <p class="lead">Ми — турагенція з Шостки. Розкажіть, який відпочинок вам до душі, а ми підберемо тур, знайдемо квитки, оформимо страховку й підкажемо щодо візи. Щоб вам не довелося розбиратися в усьому самим.</p>
+        <div class="actions">
+          <a class="btn btn-main" href="#kontakty">Підібрати тур</a>
+          <a class="btn btn-line" href="https://zhayvir-shostka.org.ua/poshchuk-turiv/" rel="noopener">Пошук турів онлайн</a>
+        </div>
+        <p class="hero-note">Можна зателефонувати, написати у Viber або зайти в офіс на вул. Миру, 4 — обговоримо поїздку за розмовою.</p>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 600 500" role="img" aria-label="Жайвір летить від Шостки до морських курортів">
+          <circle class="sun" cx="500" cy="96" r="46"/>
+          <path id="route" class="route-faint" d="M70 388 C 160 372, 190 262, 290 236 S 450 160, 528 86"/>
+          <path id="trail" class="route-trail" d="M70 388 C 160 372, 190 262, 290 236 S 450 160, 528 86"/>
+          <g id="pins"></g>
+          <g id="birdWrap"><g class="bird" transform="scale(1.35)"><path d="M-16 4 C-8 -6 8 -8 18 -2 L26 -4 L19 3 C10 11 -6 13 -16 4Z"/><path d="M-2 -2 C-6 -17 6 -24 15 -19 C9 -13 7 -6 5 0Z"/><path d="M-16 4 L-30 9 L-27 1Z"/></g></g>
+          <path class="field-back" d="M0 430 C 90 400, 170 452, 260 424 S 440 396, 600 434 L600 500 L0 500Z"/>
+          <path class="field-front" d="M0 462 C 110 434, 200 486, 320 456 S 520 434, 600 466 L600 500 L0 500Z"/>
+          <g class="stalk">
+            <path d="M40 470 v-40 M52 474 v-34 M64 472 v-44 M420 468 v-38 M434 470 v-46 M448 466 v-36 M520 462 v-34 M534 466 v-42"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <section id="napryamky">
+    <div class="wrap">
+      <h2>Куди мрієте поїхати?</h2>
+      <p class="sec-lead">Оберіть країну, яка вам близька, або просто розкажіть нам, чого хочете від відпустки: моря, історії, тиші чи пригод. Ми допоможемо знайти напрямок.</p>
+      <ul class="dest">
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/turkish/" rel="noopener"><span class="name">Туреччина</span><span class="desc">Пляжі, багата історія, смачна кухня й гостинність.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/egipet/" rel="noopener"><span class="name">Єгипет</span><span class="desc">Країна, де літо триває цілий рік.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/grecija/" rel="noopener"><span class="name">Греція</span><span class="desc">Море, острови та давня історія.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/maldivy/" rel="noopener"><span class="name">Мальдіви</span><span class="desc">Блакитний океан, білий пісок і тропічні рослини.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/spain/" rel="noopener"><span class="name">Іспанія</span><span class="desc">Узбережжя, міста й довгі вечори на терасах.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/france/" rel="noopener"><span class="name">Франція</span><span class="desc">Музеї, замки та курорти Лазурного берега.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/shri-lanka/" rel="noopener"><span class="name">Шрі-Ланка</span><span class="desc">Океан, чайні плантації та стародавні храми.</span></a></li>
+        <li><a href="https://zhayvir-shostka.org.ua/portfolio-item/tailand/" rel="noopener"><span class="name">Таїланд</span><span class="desc">Острови, храми та вулична їжа.</span></a></li>
+      </ul>
+
+      <p class="formats-title">А ще можна не летіти далеко</p>
+      <div class="formats">
+        <a href="https://zhayvir-shostka.org.ua/poshuk-dlya-avtobusnih-turiv" rel="noopener">Автобусні тури</a>
+        <a href="https://zhayvir-shostka.org.ua/portfolio-item/skarbi-zakarpattya/" rel="noopener">Скарби Закарпаття</a>
+        <a href="http://zhayvir-shostka.org.ua/portfolio-item/tury-vyhіdnogo-dnja/" rel="noopener">Тури вихідного дня</a>
+        <a href="http://zhayvir-shostka.org.ua/portfolio-item/kruizy/" rel="noopener">Круїзи</a>
+        <a href="http://zhayvir-shostka.org.ua/portfolio-item/ekotury/" rel="noopener">Екотури</a>
+        <a href="http://zhayvir-shostka.org.ua/portfolio-item/ekstremalnye-tury/" rel="noopener">Екстремальні тури</a>
+        <a href="http://zhayvir-shostka.org.ua/portfolio-item/individualnye-tury/" rel="noopener">Індивідуальні тури</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="posluhy" class="services">
+    <div class="wrap">
+      <h2>Візьмемо клопоти на себе</h2>
+      <p class="sec-lead">Найбільше нервів у подорожі — це папери, квитки й «а раптом». Ось із чим ми допомагаємо.</p>
+      <dl class="svc">
+        <div><dt>Пошук турів</dt><dd>Підбираємо відпочинок під ваші дати, бюджет і побажання, а не «що є».</dd></div>
+        <div><dt>Авіаквитки</dt><dd>Порівнюємо пропозиції та шукаємо найвигідніші варіанти.</dd></div>
+        <div><dt>Страхування</dt><dd>Щоб непередбачені витрати за кордоном не зіпсували відпустку.</dd></div>
+        <div><dt>Візова підтримка</dt><dd>Пояснюємо, що потрібно для візи, і підказуємо, як її оформити.</dd></div>
+        <div><dt>TravelSim</dt><dd>Зв’язок за кордоном без сюрпризів у рахунку: значна економія на дзвінках.</dd></div>
+        <div><dt>Освіта за кордоном</dt><dd>Допомагаємо тим, хто хоче вчитися за кордоном.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="yak">
+    <div class="wrap">
+      <h2>Як це буде</h2>
+      <p class="sec-lead">Без складних процедур: від першої розмови до валіз біля дверей.</p>
+      <ol class="steps">
+        <li><h3>Ви розповідаєте</h3><p>Куди хочете, на скільки днів, з ким їдете. Не знаєте — теж нормально, розберемося разом.</p></li>
+        <li><h3>Ми підбираємо</h3><p>Показуємо кілька варіантів і простими словами пояснюємо, що входить у кожен.</p></li>
+        <li><h3>Оформлюємо</h3><p>Тур, авіаквитки, страхування, консультація щодо візи. Ви не бігаєте по інстанціях.</p></li>
+        <li><h3>Ви відпочиваєте</h3><p>Їдете спокійно: документи зібрані, а ми на зв’язку, якщо щось потрібно.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="pytannya">
+    <div class="wrap">
+      <h2>Про що нас зазвичай питають</h2>
+      <p class="sec-lead">Якщо ваше питання тут не знайшлося, просто зателефонуйте.</p>
+      <div class="faq">
+        <details><summary>Я ще не вирішив, куди їхати. З чого почати?</summary><p>Почніть із розмови. Скажіть, скільки маєте днів, з ким їдете і який відпочинок любите. Ми запропонуємо напрямки, а ви оберете, що до душі. Ідеї також є в нашій статті про <a href="https://zhayvir-shostka.org.ua/krayini-dlya-simeynogo-vidpochinku/" rel="noopener">країни для сімейного відпочинку</a>.</p></details>
+        <details><summary>Допоможете з візою?</summary><p>Так, консультуємо щодо оформлення віз для виїзду за кордон: що потрібно і як діяти. Розкажіть, куди плануєте їхати, і ми підкажемо.</p></details>
+        <details><summary>Які зараз правила перетину кордону?</summary><p>Правила змінюються, тому перед поїздкою краще перевірити актуальне. Ми зібрали головне в <a href="https://zhayvir-shostka.org.ua/vazhlivo-novi-pravila-peretinu-kordonu-dlya-ukrayintsiv-shho-potribno-znati-pered-podorozhzhyu/" rel="noopener">окремій статті</a>, а деталі під вашу поїздку підкажемо в офісі.</p></details>
+        <details><summary>Чи можна поїхати не за кордон?</summary><p>Звісно. У нас є автобусні екскурсійні тури, тури вихідного дня, Закарпаття та екотури.</p></details>
+        <details><summary>Мені потрібен особливий маршрут. Це можливо?</summary><p>Так, є індивідуальні тури: ви подорожуєте саме так, як хочеться вам. Напишіть нам свої побажання.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakty" class="contact">
+    <div class="wrap">
+      <div>
+        <h2>Давайте поговоримо про вашу поїздку</h2>
+        <p style="color:#B9D3E4;max-width:46ch;margin:0">Напишіть кілька слів про те, що ви хочете, і ми з вами зв’яжемося. Якщо зручніше говорити, телефонуйте або заходьте в офіс.</p>
+        <address>
+          <div><span>Телефони</span><a href="tel:+380502251863">+38 (050) 225 18 63</a><br><a href="tel:+380675852853">+38 (067) 585 28 53</a></div>
+          <div><span>Пошта</span><a href="mailto:infozhayvir-shostka@ukr.net">infozhayvir-shostka@ukr.net</a></div>
+          <div><span>Офіс</span>Сумська обл., м. Шостка, вул. Миру, 4</div>
+        </address>
+        <a class="btn viber" href="viber://chat?number=%2B380675852853">Написати у Viber</a>
+      </div>
+
+      <form id="reqForm" novalidate>
+        <h3>Розкажіть про свою відпустку</h3>
+        <div class="row">
+          <label>Ім’я
+            <input name="name" autocomplete="given-name" required>
+          </label>
+          <label>Телефон
+            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+38 0__ ___ __ __" required>
+          </label>
+        </div>
+        <label>Напрямок
+          <select name="dest">
+            <option>Ще не визначилися</option>
+            <option>Туреччина</option>
+            <option>Єгипет</option>
+            <option>Греція</option>
+            <option>Мальдіви</option>
+            <option>Іспанія</option>
+            <option>Франція</option>
+            <option>Шрі-Ланка</option>
+            <option>Таїланд</option>
+            <option>Автобусний або екскурсійний тур</option>
+          </select>
+        </label>
+        <label>Що для вас важливо?
+          <textarea name="note" placeholder="Наприклад: їдемо втрьох, з дитиною, наприкінці літа, хочемо море й спокій"></textarea>
+        </label>
+        <button class="btn btn-main" type="submit">Надіслати</button>
+        <p class="hint" id="formHint">Лист із вашим запитом відкриється в поштовій програмі — залишиться натиснути «Надіслати».</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Туристична агенція «Жайвір-Шостка»</span>
+    <a href="https://zhayvir-shostka.org.ua/" rel="noopener">zhayvir-shostka.org.ua</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var route = document.getElementById('route');
+  var trail = document.getElementById('trail');
+  var bird = document.getElementById('birdWrap');
+  var pinsG = document.getElementById('pins');
+  var ns = 'http://www.w3.org/2000/svg';
+  var len = route.getTotalLength();
+
+  var pinsDef = [
+    { t: 0.0,  label: 'Шостка',    dx: 14,  dy: 30, anchor: 'start' },
+    { t: 0.36, label: 'Греція',    dx: 16,  dy: 26, anchor: 'start' },
+    { t: 0.62, label: 'Туреччина', dx: 14,  dy: 28, anchor: 'start' },
+    { t: 0.82, label: 'Єгипет',    dx: 14,  dy: 30, anchor: 'start' },
+    { t: 1.0,  label: 'Мальдіви',  dx: -16, dy: 34, anchor: 'end' }
+  ];
+  var pins = pinsDef.map(function (p) {
+    var pt = route.getPointAtLength(len * p.t);
+    var g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'pin');
+    var c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.setAttribute('r', 7);
+    var tx = document.createElementNS(ns, 'text');
+    tx.setAttribute('x', pt.x + p.dx); tx.setAttribute('y', pt.y + p.dy);
+    tx.setAttribute('text-anchor', p.anchor);
+    tx.textContent = p.label;
+    g.appendChild(c); g.appendChild(tx);
+    pinsG.appendChild(g);
+    return { g: g, t: p.t };
+  });
+
+  trail.style.strokeDasharray = len;
+
+  function place(prog) {
+    var L = len * prog;
+    var a = route.getPointAtLength(L);
+    var b = route.getPointAtLength(Math.min(len, L + 2));
+    var back = route.getPointAtLength(Math.max(0, L - 2));
+    var ang = Math.atan2(b.y - back.y, b.x - back.x) * 180 / Math.PI;
+    bird.setAttribute('transform', 'translate(' + a.x + ' ' + a.y + ') rotate(' + ang + ')');
+    trail.style.strokeDashoffset = len * (1 - prog);
+    pins.forEach(function (p) { if (prog >= p.t - 0.001) p.g.classList.add('on'); });
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { place(1); }
+  else {
+    place(0);
+    var dur = 4200, start = null;
+    var ease = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+    function frame(ts) {
+      if (start === null) start = ts + 350;
+      var k = Math.max(0, Math.min(1, (ts - start) / dur));
+      place(ease(k));
+      if (k < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // form → mailto
+  var form = document.getElementById('reqForm');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = form.elements;
+    var name = f.name.value.trim(), phone = f.phone.value.trim();
+    if (!name || !phone) {
+      document.getElementById('formHint').textContent = 'Вкажіть, будь ласка, ім’я та телефон, щоб ми могли з вами зв’язатися.';
+      (name ? f.phone : f.name).focus();
+      return;
+    }
+    var body = 'Ім’я: ' + name + '\nТелефон: ' + phone + '\nНапрямок: ' + f.dest.value + '\nПобажання: ' + (f.note.value.trim() || '—');
+    var href = 'mailto:infozhayvir-shostka@ukr.net?subject=' + encodeURIComponent('Запит на тур з сайту') + '&body=' + encodeURIComponent(body);
+    window.location.href = href;
+  });
+})();
+</script>
+</body>
+</html>
+
 <head>
 <meta charset="utf-8"><!DOCTYPE html>
 <html lang="uk">
